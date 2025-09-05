@@ -14,8 +14,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -64,7 +64,7 @@
                 <a href="{{url('/inicio')}}" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><img src="{!! asset('assets/logo-ivss.png') !!}" alt="Logo IVSS" height="50" width="50"> Reposos</h3>
                 </a>
-                
+
                 <div class="navbar-nav w-100">
 
                     @if (Auth::check() && Auth::user()->cod_cargo == 1)
@@ -135,11 +135,13 @@
                             <div class="nav-item dropdown">
                                 <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-solid fa-file-medical me-2"></i>Reposos</a>
                                 <div class="dropdown-menu bg-transparent border-0">
-                                    <a href="{{ route('validar.cedula.reposo.view') }}" class="dropdown-item">Nuevo Reposo</a>
+                                    @if(!in_array(auth()->user()->id_servicio, [1, 25, 46, 47, 48, 58]))
+                                        <a href="{{ route('validar.cedula.reposo.view') }}" class="dropdown-item">Nuevo Reposo</a>
+                                    @endif
                                     @if(in_array(auth()->user()->id_servicio, [1, 25, 46, 47, 48, 58]))
                                         <a href="{{ route('validar.cedula.reposo.maternindad.view') }}" class="dropdown-item">Nuevo Reposo Maternidad</a>
                                     @endif
-                                    <a href="{{ route('validar.cedula.prorroga.view') }}" class="dropdown-item">Nueva Prórroga</a>
+                                    {{-- <a href="{{ route('validar.cedula.prorroga.view') }}" class="dropdown-item">Nueva Prórroga</a> --}}
                                 </div>
                             </div>
                         @endif
@@ -201,9 +203,9 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                
+
                 <div class="navbar-nav align-items-center ms-auto">
-                    
+
                     {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>

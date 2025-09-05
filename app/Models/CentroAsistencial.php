@@ -28,6 +28,7 @@ class CentroAsistencial extends Model
         'fecha_create',
         'id_update',
         'fecha_update',
+        'centro_asistencial_id'
     ];
 
     protected $casts = [

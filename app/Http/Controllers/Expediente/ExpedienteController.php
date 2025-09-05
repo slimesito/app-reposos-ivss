@@ -56,7 +56,7 @@ class ExpedienteController extends Controller
     public function showReposos()
     {
         $user = auth()->user();
-        
+
         if ($user->cod_cargo == 1) {
             $reposos = Reposo::where('cod_estatus', 1)
                             ->orderBy('fecha_create', 'desc')
@@ -132,11 +132,15 @@ class ExpedienteController extends Controller
     public function descargarReposoPDF($id)
     {
         $reposo = Reposo::findOrFail($id);
-        $filePath = 'public/app/assets/certificados/F-14-73_ENFERMEDAD_' . $reposo->id . '.pdf';
+
+        $filePathEnfermedad = 'public/app/assets/certificados/F-14-73_ENFERMEDAD_' . $reposo->id . '.pdf';
+        $filePathMaternidad = 'public/app/assets/certificados/F-14-73_MATERNIDAD_' . $reposo->id . '.pdf';
 
         try {
-            if (Storage::exists($filePath)) {
-                return Storage::download($filePath);
+            if (Storage::exists($filePathEnfermedad)) {
+                return Storage::download($filePathEnfermedad);
+            } elseif (Storage::exists($filePathMaternidad)) {
+                return Storage::download($filePathMaternidad);
             } else {
                 return redirect()->back()->with('error', 'No se encontró el certificado PDF.');
             }
@@ -157,7 +161,7 @@ class ExpedienteController extends Controller
     public function showProrrogas()
     {
         $user = auth()->user();
-        
+
         if ($user->cod_cargo == 4) {
             // Si el usuario es Master, se muestran todas las prórrogas ordenadas por fecha de creación descendente
             $prorrogas = Prorroga::orderBy('fecha_create', 'desc')->paginate(20);
@@ -201,7 +205,7 @@ class ExpedienteController extends Controller
                                 ->orderBy('fecha_create', 'desc') // Ordenar por fecha de creación descendente
                                 ->paginate(10)
                                 ->appends(['prorrogasQuery' => $query]);
-        
+
         // Formatear la cédula en el controlador
         foreach ($prorrogas as $prorroga) {
             $cedula = ltrim(substr($prorroga->cedula, 1), '0');
